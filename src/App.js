@@ -2,16 +2,20 @@ import AddItem from "./AddItem";
 import Content from "./Content";
 import Footer from "./Footer";
 import Header from "./Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchItem from "./SearchItem";
 
 function App() {
   const [items, setItems] = useState(
-    JSON.parse(localStorage.getItem("todo_list"))
+    JSON.parse(localStorage.getItem("todo_list")) || [] // use pipe with default empty array when local storage not exists
   );
 
-  const [newItem, setNewItem] = useState('');
-  const [search, setSearch] = useState('');
+  const [newItem, setNewItem] = useState("");
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    console.log("load time");
+  }, []);
 
   const addItem = (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
@@ -50,7 +54,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header title="To Do List" />
+      <Header title="Course List" />
       <AddItem
         newItem={newItem}
         setNewItem={setNewItem}
@@ -58,7 +62,9 @@ function App() {
       />
       <SearchItem search={search} setSearch={setSearch} />
       <Content
-        items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
+        items={items.filter((item) =>
+          item.item.toLowerCase().includes(search.toLowerCase())
+        )}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
       />
