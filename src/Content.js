@@ -1,24 +1,36 @@
 import React from "react";
+import { useState } from "react";
 
 const Content = () => {
+
   function handleNameChange() {
     const names = ["Earn", "Grow", "Give"];
     const int = Math.floor(Math.random() * 3);
     return names[int];
   }
 
-  const handleClick = (e) => {
-    console.log(e.target.innerText)
+  function namee() {
+    return console.log('Visit santhosh')
   }
 
-  const handleClick2 = (name) => {
-    console.log(`thanks for the support ${name}`)
+  const [count, setCount] = useState(99)
+  const [name, setName] = useState(() => namee())
+
+  const incrementFunction = () => {
+    setCount((prevCount) => prevCount + 1)
+  }
+
+  const decrementFunction = () => {
+    setCount((prevCount) => prevCount - 1)
   }
 
   return (
     <main>
-      <p onDoubleClick={() => handleClick2('Santhosh')}> Lets {handleNameChange()} Money </p>
-      <button onClick={(e) => handleClick(e)}> Subscribe </button>
+      <p > Lets Earn Money </p>
+      <button> Subscribe </button>
+      <button onClick={decrementFunction}>-</button>
+      <span>{count}</span>
+      <button onClick={incrementFunction}>+</button>
     </main>
   )
 }
