@@ -5,21 +5,19 @@ import Header from "./Header";
 import { useState } from "react";
 
 function App() {
-  const [items, setItems] = useState([
-    { id: 1, checked: true, item: "Practice Coding" },
-    { id: 2, checked: false, item: "Play Cricket" },
-    { id: 3, checked: false, item: "Read AI" },
-  ]);
+  const [items, setItems] = useState(
+    JSON.parse(localStorage.getItem("todo_list"))
+  );
 
-  const [newItem, setNewItem] = useState('')
+  const [newItem, setNewItem] = useState("");
 
   const addItem = (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
-    const addNewItem = {id:id, checked:false, item}
-    const listItems = [...items, addNewItem]
-    setItems(listItems)
+    const addNewItem = { id: id, checked: false, item };
+    const listItems = [...items, addNewItem];
+    setItems(listItems);
     localStorage.setItem("todo_list", JSON.stringify(listItems));
-  }
+  };
 
   const handleCheck = (id) => {
     console.log(`item id ${id}`);
@@ -37,33 +35,31 @@ function App() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault() // to prevent page reload behavior html form element
-    console.log('submitted')
+    e.preventDefault(); // to prevent page reload behavior html form element
+    console.log("submitted");
 
-    if(!newItem) return;
+    if (!newItem) return;
 
-    addItem(newItem)
+    addItem(newItem);
 
     // clear the edit
-    setNewItem('')
-  }
+    setNewItem("");
+  };
 
   return (
     <div className="App">
-      <Header title = "To Do List" />
+      <Header title="To Do List" />
       <AddItem
-        newItem = {newItem}
-        setNewItem = {setNewItem}
-        handleSubmit = {handleSubmit}
-       />
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
       <Content
-        items = {items}
-        handleCheck = {handleCheck}
-        handleDelete = {handleDelete}
-       />
-      <Footer
-        length = {items.length}
-       />
+        items={items}
+        handleCheck={handleCheck}
+        handleDelete={handleDelete}
+      />
+      <Footer length={items.length} />
     </div>
   );
 }
