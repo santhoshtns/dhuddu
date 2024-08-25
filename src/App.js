@@ -6,15 +6,31 @@ import { useState, useEffect } from "react";
 import SearchItem from "./SearchItem";
 
 function App() {
+  const API_URL = "http://localhost:3500/items";
   const [items, setItems] = useState(
-    JSON.parse(localStorage.getItem("todo_list")) || [] // use pipe with default empty array when local storage not exists
+    []
+    // JSON.parse(localStorage.getItem("todo_list")) || [] // use pipe with default empty array when local storage not exists
   );
-
   const [newItem, setNewItem] = useState("");
   const [search, setSearch] = useState("");
+  const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
-    console.log("load time");
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw Error("Data not received");
+        }
+        const listItems = await response.json();
+        setItems(listItems);
+        setFetchError(null);
+      } catch (err) {
+        console.log(err.stack);
+        setFetchError(err.message);
+      }
+    };
+    (async () => await fetchItems())();
   }, []);
 
   const addItem = (item) => {
@@ -22,7 +38,7 @@ function App() {
     const addNewItem = { id: id, checked: false, item };
     const listItems = [...items, addNewItem];
     setItems(listItems);
-    localStorage.setItem("todo_list", JSON.stringify(listItems));
+    // localStorage.setItem("todo_list", JSON.stringify(listItems));
   };
 
   const handleCheck = (id) => {
@@ -37,7 +53,7 @@ function App() {
     console.log(`item id ${id}`);
     const listItems = items.filter((item) => item.id !== id);
     setItems(listItems);
-    localStorage.setItem("todo_list", JSON.stringify(listItems));
+    // localStorage.setItem("todo_list", JSON.stringify(listItems));
   };
 
   const handleSubmit = (e) => {

@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "checked": false,
+            "item": "Visit santhosh.in"
+        },
+        {
+            "id": 2,
+            "checked": false,
+            "item": "Generative AI"
+        },
+        {
+            "id": 3,
+            "checked": false,
+            "item": "Machine Learning"
+        },
+        {
+            "id": 4,
+            "checked": false,
+            "item": "Earn Money"
+        }
+    ]
+}
